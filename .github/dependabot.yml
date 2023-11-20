@@ -1,0 +1,23 @@
+version: 2
+# https://docs.github.com/en/code-security/dependabot
+updates:
+
+  - package-ecosystem: "gomod"
+    # Check for Go updates to git-describe-semver every week on Tuesday
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
+        # For git-describe-semver, ignore all patch updates for version updates only
+    labels:
+      - "actions:dependabot"
+      - "version:patch"
+    open-pull-requests-limit: 2
+    pull-request-branch-name:
+      # Separate sections of the branch name with a hyphen
+      separator: "-"
+    reviewers:
+      - "rwaight"
