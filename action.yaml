@@ -32,7 +32,7 @@ runs:
     - if: inputs.version == 'latest'
       run: |
         cd /tmp
-        URL=$(curl -fsSL https://api.github.com/repos/choffmeister/git-describe-semver/releases/latest | jq -r '.assets[] | select(.name|test("linux_amd64\\.tar\\.gz$")) | .browser_download_url')
+        URL=$(curl -fsSL https://api.github.com/repos/rwaight/git-describe-semver/releases/latest | jq -r '.assets[] | select(.name|test("linux_amd64\\.tar\\.gz$")) | .browser_download_url')
         curl -fsSL "$URL" | tar xz
         mv git-describe-semver /usr/local/bin
       shell: bash
@@ -40,7 +40,7 @@ runs:
       run: |
         cd /tmp
         VERSION="$(echo ${{ inputs.version }} | sed 's#^v##')"
-        URL="https://github.com/choffmeister/git-describe-semver/releases/download/v${VERSION}/git-describe-semver_${VERSION}_linux_amd64.tar.gz"
+        URL="https://github.com/rwaight/git-describe-semver/releases/download/v${VERSION}/git-describe-semver_${VERSION}_linux_amd64.tar.gz"
         curl -fsSL "$URL" | tar xz
         mv git-describe-semver /usr/local/bin
       shell: bash

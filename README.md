@@ -24,8 +24,8 @@ none | fail | `v0.0.0-dev.23.gabc1234`
 
 ```bash
 cd my-git-directory
-docker pull ghcr.io/choffmeister/git-describe-semver:latest
-docker run --rm -v $PWD:/workdir ghcr.io/choffmeister/git-describe-semver:latest
+docker pull ghcr.io/rwaight/git-describe-semver:latest
+docker run --rm -v $PWD:/workdir ghcr.io/rwaight/git-describe-semver:latest
 ```
 
 ### GitHub action
@@ -41,7 +41,7 @@ jobs:
       with:
         fetch-depth: 0
     - id: git-describe-semver
-      uses: choffmeister/git-describe-semver@main
+      uses: rwaight/git-describe-semver@main
       with:
         version: latest
         dir: .
