@@ -4,26 +4,57 @@ on:
    tags:
      - "*"
 jobs:
-  release:
+  git-describe-semver-release-goreleaser:
+    name: Build and push Docker image with GoReleaser
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
-    - uses: actions/setup-go@v3
+    - name: Run actions/setup-go
+      #uses: actions/setup-go@v3
+      uses: actions/setup-go@v4
+      # Verified creator: https://github.com/marketplace/actions/setup-go-environment
+      # Set up your GitHub Actions workflow with a specific version of Go
       with:
         go-version: 1.19.x
-    - uses: docker/setup-qemu-action@v2
-    - uses: docker/setup-buildx-action@v2
-    - uses: docker/login-action@v2
+
+    - name: Run Docker Setup QEMU
+      uses: docker/setup-qemu-action@v3
+      # Verified creator: https://github.com/marketplace/actions/docker-setup-qemu
+      # GitHub Action to install QEMU static binaries
+
+    - name: Run Docker Setup Buildx
+      uses: docker/setup-buildx-action@v3
+      # Verified creator: https://github.com/marketplace/actions/docker-setup-buildx
+      # GitHub Action to set up Docker Buildx
+
+    - name: Login to GitHub Container Registry with docker/login-action
+      uses: docker/login-action@v3
+      # Verified creator: https://github.com/marketplace/actions/docker-login
+      # GitHub Action to login against a Docker registry
       with:
         registry: ghcr.io
-        username: rwaight
+        #username: rwaight
+        username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
-    - uses: actions/checkout@v3
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Run GoReleaser
-      uses: goreleaser/goreleaser-action@v3
+
+    - name: Run GoReleaser for git-describe-semver
+      uses: goreleaser/goreleaser-action@v5
+      # Verified creator: https://github.com/marketplace/actions/goreleaser-action
+      # GitHub Action for GoReleaser
       with:
+        version: latest # the GoReleaser version, defaults to 'latest'
         distribution: goreleaser
-        args: release --rm-dist
+        #args: release --rm-dist # '--rm-dist' has been deprecated in favor of '--clean'
+        # https://goreleaser.com/deprecations/#-rm-dist
+        args: release -f .goreleaser.yml --clean
+        #workdir: ./git-describe-semver
+        # for an example, see:
+        #    https://github.com/kkdai/disqus-to-github-issues-go/pull/4/files
+        #    https://stackoverflow.com/questions/67653504/how-to-goreleaser-to-build-sub-folder-in-github
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

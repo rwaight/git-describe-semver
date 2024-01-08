@@ -1,5 +1,9 @@
 name: 'Git describe semver'
-description: ''
+description: 'A command similar to "git describe --tags" that produces semver compatible versions that follow to semver sorting rules.'
+branding:
+  icon: 'git-commit'
+  color: 'purple'
+  # Ref: https://haya14busa.github.io/github-action-brandings/
 inputs:
   version:
     description: 'version'

@@ -1,4 +1,5 @@
-name: test
+name: test git-describe-semver
+
 on:
   push:
     branches:
@@ -6,24 +7,39 @@ on:
   pull_request:
     branches:
     - main
+
 env:
   GO111MODULE: on
+
 jobs:
-  test:
+  test-code-using-go:
+    name: Test code using Go
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/setup-go@v2
+    - name: Run actions/setup-go
+      uses: actions/setup-go@v4
+      # Verified creator: https://github.com/marketplace/actions/setup-go-environment
+      # Set up your GitHub Actions workflow with a specific version of Go
       with:
         go-version: 1.19.x
-    - uses: actions/checkout@v3
-    - run: go test ./...
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run go test
+      run: go test ./...
+
+
   test-action-latest:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - id: git-describe-semver
+
+    - name: Run git-describe-semver
+      id: git-describe-semver
       uses: rwaight/git-describe-semver@main
       with:
         version: latest
@@ -33,28 +49,34 @@ jobs:
         prerelease-prefix: prefix
         prerelease-suffix: suffix
         prerelease-timestamped: true
+
     - name: Verify output
       run: |
         if [[ -z "${{ steps.git-describe-semver.outputs.version }}" ]]; then
           echo Output version is empty!
           exit 1
         fi
-  test-action-0-3-11:
+
+  test-action-0-5-0:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - id: git-describe-semver
+
+    - name: Run git-describe-semver
+      id: git-describe-semver
       uses: rwaight/git-describe-semver@main
       with:
-        version:  0.3.11
+        version:  0.5.0
         dir: .
         fallback: v0.0.0-init
         drop-prefix: true
         prerelease-prefix: prefix
         prerelease-suffix: suffix
         prerelease-timestamped: true
+
     - name: Verify output
       run: |
         if [[ -z "${{ steps.git-describe-semver.outputs.version }}" ]]; then

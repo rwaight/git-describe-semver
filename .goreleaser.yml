@@ -9,7 +9,7 @@ builds:
       - CGO_ENABLED=0
     goos:
       - linux
-      - windows
+      #- windows
       - darwin
     goarch:
       - amd64
@@ -30,6 +30,9 @@ release:
   mode: append
   # 'make_latest' - If set to false, will NOT mark the release as "latest".
   make_latest: true
+  # 'name_template' - You can change the name of the release.
+  name_template: 'Git Describe Semver v{{.Version}}'
+  # The 'name_template' is relevant if you are using 'goreleaser' with 'release-drafter'
 dockers:
   - image_templates:
       - "ghcr.io/rwaight/{{ .ProjectName }}:{{ .Version }}-amd64"
