@@ -59,7 +59,7 @@ jobs:
           exit 1
         fi
 
-  test-action-0-5-1:
+  test-action-0-5-3:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -71,7 +71,7 @@ jobs:
       id: git-describe-semver
       uses: rwaight/git-describe-semver@main
       with:
-        version:  0.5.1
+        version:  0.5.3
         dir: .
         fallback: v0.0.0-init
         drop-prefix: true
