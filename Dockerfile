@@ -6,3 +6,4 @@ LABEL "org.opencontainers.image.documentation" = "https://github.com/rwaight/git
 ENTRYPOINT ["/bin/git-describe-semver"]
 COPY git-describe-semver /bin/git-describe-semver
 WORKDIR /workdir
+# need to review https://docs.github.com/en/actions/creating-actions/dockerfile-support-for-github-actions
