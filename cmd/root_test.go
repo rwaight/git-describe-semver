@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/rwaight/git-describe-semver/internal"
@@ -12,7 +12,7 @@ import (
 
 func TestRun(t *testing.T) {
 	assert := assert.New(t)
-	dir, _ := ioutil.TempDir("", "example")
+	dir, _ := os.MkdirTemp("", "example")
 	author := object.Signature{Name: "Test", Email: "test@test.com"}
 	_, err := run(dir, internal.GenerateVersionOptions{PrereleasePrefix: "dev"})
 	assert.Error(err)

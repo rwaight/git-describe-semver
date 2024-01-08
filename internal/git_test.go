@@ -1,7 +1,7 @@
 package internal
 
 import (
-	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/go-git/go-git/v5"
@@ -13,7 +13,7 @@ import (
 
 func TestGitTagMap(t *testing.T) {
 	assert := assert.New(t)
-	dir, _ := ioutil.TempDir("", "example")
+	dir, _ := os.MkdirTemp("", "example")
 	author := object.Signature{Name: "Test", Email: "test@test.com"}
 	repo, _ := git.PlainInit(dir, false)
 	worktree, _ := repo.Worktree()
@@ -62,7 +62,7 @@ func TestGitTagMap(t *testing.T) {
 
 func TestGitDescribe(t *testing.T) {
 	assert := assert.New(t)
-	dir, _ := ioutil.TempDir("", "example")
+	dir, _ := os.MkdirTemp("", "example")
 	author := object.Signature{Name: "Test", Email: "test@test.com"}
 	repo, _ := git.PlainInit(dir, false)
 	worktree, _ := repo.Worktree()
@@ -94,7 +94,7 @@ func TestGitDescribe(t *testing.T) {
 
 func TestGitDescribeWithBranch(t *testing.T) {
 	assert := assert.New(t)
-	dir, _ := ioutil.TempDir("", "example")
+	dir, _ := os.MkdirTemp("", "example")
 	author := object.Signature{Name: "Test", Email: "test@test.com"}
 	repo, _ := git.PlainInit(dir, false)
 	worktree, _ := repo.Worktree()
